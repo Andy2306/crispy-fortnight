@@ -1,17 +1,15 @@
-const { createEmbed } = require("../utils/embed");
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  name: "ping",
-  description: "Menampilkan latency bot",
-  execute: async (message) => {
-    const sent = await message.reply({ content: "Pinging..." });
-    const latency = sent.createdTimestamp - message.createdTimestamp;
+  name: 'ping',
+  description: 'Menampilkan latensi bot.',
+  execute(message) {
+    const embed = new EmbedBuilder()
+      .setTitle('🏓 Pong!')
+      .setDescription(`Latensi: ${Date.now() - message.createdTimestamp}ms\nAPI: ${Math.round(message.client.ws.ping)}ms`)
+      .setColor('Random')
+      .setTimestamp();
 
-    const embed = createEmbed(
-      "🏓 Pong!",
-      `Latency: ${latency}ms\nAPI Latency: ${message.client.ws.ping}ms`
-    );
-
-    sent.edit({ content: "", embeds: [embed] });
+    message.reply({ embeds: [embed] });
   },
 };

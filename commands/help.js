@@ -1,23 +1,18 @@
-const { createEmbed } = require('../utils/embed');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'help',
-  description: 'Menampilkan semua command yang tersedia',
-  execute: async (message) => {
-    const commands = message.client.commands;
-    const fields = [];
-    
-    commands.forEach(command => {
-      fields.push({
-        name: `+${command.name}`,
-        value: command.description || 'Tidak ada deskripsi',
-        inline: false
-      });
+  description: 'Menampilkan daftar perintah.',
+  execute(message) {
+    const embed = new EmbedBuilder()
+      .setTitle('📜 Daftar Perintah')
+      .setColor('Random')
+      .setTimestamp();
+
+    message.client.commands.forEach(cmd => {
+      embed.addFields({ name: `+${cmd.name}`, value: cmd.description });
     });
 
-    const embed = createEmbed('📚 Daftar Command', 'Berikut adalah semua command yang tersedia:')
-      .addFields(fields);
-
     message.reply({ embeds: [embed] });
-  }
+  },
 };

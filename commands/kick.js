@@ -1,28 +1,33 @@
-const { createEmbed } = require("../utils/embed");
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
-  name: "kick",
-  description: "Mengeluarkan member dari server",
-  permissions: ["KICK_MEMBERS"],
-  execute: async (message, args) => {
-    const member = message.mentions.members.first();
+  name: 'kick',
+  description: 'Mengeluarkan anggota (perlu izin Kick Members).',
+  async execute(message, args) {
+    if (!message.member.permissions.has(PermissionsBitField.Flags.KickMembers))
+      return message.reply('Kamu tidak punya izin untuk menggunakan perintah ini.');
 
-    if (!member) {
-      return message.reply("Tag member yang ingin dikick!");
+    const user = message.mentions.members.first();
+    const reason = args.slice(1).join(' ') || 'Tidak ada alasan';
+
+    if (!user) return message.reply('Tandai anggota yang ingin dikeluarkan.');
+
+    try {
+      await user.kick(reason);
+      const embed = new EmbedBuilder()
+        .setTitle('🔨 Member Kicked')
+        .addFields(
+          { name: 'User', value: user.user.tag },
+          { name: 'Moderator', value: message.author.tag },
+          { name: 'Alasan', value: reason }
+        )
+        .setColor('Random')
+        .setTimestamp();
+
+      message.reply({ embeds: [embed] });
+    } catch (error) {
+      message.reply('Gagal mengeluarkan anggota ini.');
+      console.error(error);
     }
-
-    if (!member.kickable) {
-      return message.reply("Saya tidak bisa mengkick member ini!");
-    }
-
-    const reason = args.slice(1).join(" ") || "Tidak ada alasan";
-
-    await member.kick(reason);
-    const embed = createEmbed(
-      "👢 Member Dikick",
-      `${member.user.tag} telah dikick oleh ${message.author.tag}\nAlasan: ${reason}`
-    ).setColor("#ff0000");
-
-    message.channel.send({ embeds: [embed] });
   },
 };
