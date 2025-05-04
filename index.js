@@ -73,7 +73,7 @@ client.on('messageCreate', message => {
     const isReplyToBot = message.reference && message.mentions.repliedUser?.id === client.user.id;
 
     if (( isMentioned || isReplyToBot)) {
-        const sayCommand = client.commands.get('say');
+        const sayCommand = client.commands.get('chatbot');
         if (!sayCommand) return;
 
         const rawArgs = message.content.replace(`<@${client.user.id}>`, '').trim();
