@@ -47,6 +47,8 @@ client.on('ready', () => {
     console.log(`Bot aktif sebagai ${client.user.tag}`);
 });
 
+
+// Event ketika bot menerima pesan
 client.on('messageCreate', message => {
     if (!message.content.startsWith(PREFIX) || message.author.bot) return;
 
@@ -63,5 +65,28 @@ client.on('messageCreate', message => {
         message.reply('Terjadi kesalahan saat mengeksekusi perintah.');
     }
 });
+
+client.on('messageCreate', message => {
+    // Cek apakah bot disebutkan atau membalas pesan bot
+    // Jika bot disebutkan atau membalas pesan bot
+    const isMentioned = message.mentions.has(client.user);
+    const isReplyToBot = message.reference && message.mentions.repliedUser?.id === client.user.id;
+
+    if (( isMentioned || isReplyToBot)) {
+        const sayCommand = client.commands.get('say');
+        if (!sayCommand) return;
+
+        const rawArgs = message.content.replace(`<@${client.user.id}>`, '').trim();
+
+        const finalArgs = rawArgs.length ? rawArgs.split(/  +/) : [];
+        try {
+            sayCommand.execute(message, finalArgs, client);
+        } catch (error) {
+            console.error(error);
+            message.reply('Terjadi kesalahan saat mengeksekusi perintah.');
+        }
+    }
+} )
+
 
 client.login(TOKEN);
