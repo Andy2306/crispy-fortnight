@@ -37,7 +37,7 @@
 3. Pergi ke tab **Bot**, lalu klik **Reset Token** dan salin token bot-nya.
 4. Buat file `.env` dan tambahkan baris berikut:
    ```ini
-   TOKEN=masukkan_token_bot_disini
+   TOKEN=masukkan_token_botnya_disini
    ```
 
 ---
@@ -50,7 +50,7 @@
 4. Masuk ke bagian **API**, lalu buat dan salin API Key.
 5. Tambahkan ke file `.env` seperti ini:
    ```ini
-   AI_TOKEN=masukkan_token_AI_disini
+   AI_TOKEN=masukkan_token_AInya_disini
    ```
 
 ---
