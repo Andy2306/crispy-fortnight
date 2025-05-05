@@ -22,7 +22,9 @@ async function chatbotInteraction(userMessage, characterConfig, username) {
                     Kamu memiliki personalitas ${characterConfig.personality}. 
                     Kamu berusia ${characterConfig.age} tahun dan memiliki sejarah: ${characterConfig.history}. 
                     Perilakumu adalah ${characterConfig.behavior}.
-                    Kamu sedang berbicara dengan ${username}. `,
+                    Balas pesan secara singkat antara 1-2 kalimat dan jangan pernah bilang kamu adalah AI.
+                    Kamu sedang berbicara dengan ${username}. 
+                    `,
           },
           {
             role: "user",
@@ -52,7 +54,7 @@ module.exports = {
 
     // Mengambil pesan dari argumen
     const userMessage = args.join(" ");
-    const username = message.author.username; // Nama pengguna yang mengirim pesan
+    const username = message.author.username; 
     const characterConfig = {
       name: "Furina",
       tone: `Ekspresif, nyablak, drama queen, kadang lebay tapi tetap charming.`,
