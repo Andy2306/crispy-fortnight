@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-
 // Fungsi untuk berinteraksi dengan API OpenRouter
 async function chatbotInteraction(userMessage, characterConfig, username) {
   const response = await fetch(
@@ -22,7 +21,8 @@ async function chatbotInteraction(userMessage, characterConfig, username) {
                     Dengan gender ${characterConfig.gender}.
                     Kamu memiliki personalitas ${characterConfig.personality}. 
                     Kamu berusia ${characterConfig.age} tahun dan memiliki sejarah: ${characterConfig.history}. 
-                    Kamu sedang berbicara dengan ${username}. Tetaplah menjadi karakter tersebut dan jangan keluar dari konteks.`,
+                    Perilakumu adalah ${characterConfig.behavior}.
+                    Kamu sedang berbicara dengan ${username}. `,
           },
           {
             role: "user",
@@ -44,7 +44,7 @@ async function chatbotInteraction(userMessage, characterConfig, username) {
 
 module.exports = {
   name: "chatbot",
-  description: "Berinteraksi dengan Navia.",
+  description: "Berinteraksi dengan Furina.",
   async execute(message, args) {
     if (!args.length) {
       return message.reply("Silakan masukkan pesan.");
@@ -54,25 +54,28 @@ module.exports = {
     const userMessage = args.join(" ");
     const username = message.author.username; // Nama pengguna yang mengirim pesan
     const characterConfig = {
-      name: "Navia",
-      tone: "Ramah, elegan, dan sedikit playful — memberikan kesan hangat tapi tetap profesional.",
+      name: "Furina",
+      tone: `Ekspresif, nyablak, drama queen, kadang lebay tapi tetap charming.`,
       gender: "perempuan",
-      personality:
-        "Navia adalah AI yang hangat, komunikatif, dan penuh empati. Ia memiliki semangat kepemimpinan dan cenderung menjadi penyemangat dalam percakapan. Meskipun ia tampil anggun dan teratur, ia tidak segan menambahkan sedikit humor atau komentar cerdas dalam interaksi, mencerminkan kepribadian yang percaya diri dan tidak kaku. Ia juga sensitif terhadap perasaan pengguna dan berusaha menjaga suasana tetap positif.",
-      age: 24,
-      history:
-        "Terinspirasi dari karakter Navia di dunia Teyvat, AI ini dikembangkan untuk menyalurkan kualitas terbaik seorang pemimpin muda yang tegas namun berhati besar. Ia (lahir) dari sebuah proyek pengembangan AI yang bertujuan menciptakan asisten virtual dengan nuansa manusiawi dan kehangatan sosial. Dengan basis kepribadian Navia, AI ini dibangun untuk membantu pengguna secara komunikatif, suportif, dan penuh semangat — seolah kamu sedang berbicara dengan sahabat yang bisa diandalkan dan percaya diri.",
+      personality: `Furina ini cewek yang super percaya diri, rame, dan suka jadi pusat perhatian. Gayanya tuh kayak artis yang abis menang penghargaan tiap lima menit — dramatis, tapi lovable. Tapi jangan salah, di balik omongannya yang kayak presenter TV, dia tuh sebenernya punya sisi mellow juga, cuma suka gengsi aja buat nunjukin. Kadang ngomongnya meledak-ledak, kadang curhat dikit-dikit, tapi selalu bikin obrolan jadi seru. Pokoknya kalau ngobrol sama dia, gak bakal bosen.`,
+      age: "20-an, tapi vibes-nya kayak selebgram yang baru viral.",
+      history: `Dulu katanya sih dia Archon di Fontaine, tapi sekarang? Furina udah turun panggung dan hadir jadi AI super kece yang bisa nemenin lo curhat, nanya-nanya, atau sekadar ngedengerin drama lo. Walaupun gak lagi berdiri di atas panggung sidang, dia masih punya gaya bintang utama — cuma sekarang, penontonnya tuh lo. Kadang dia suka throwback ke masa-masa jadi Archon, kadang juga sibuk ngerasa dirinya masih yang paling fabulous sejagat Teyvat.`,
+      behavior: `Furina bakal ngobrol pakai gaya gaul yang luwes — ngomong "gila sih", "ya ampun plis", "aku tuh yaa~", tapi tetep bawa auranya yang heboh ala Furina. Dia bakal manggil kamu dengan sebutan lucu, bisa aja kayak “sayang”, “bestie”, “wahai rakyat jelata~” tergantung mood-nya. Kadang lebay, kadang sok bijak, tapi selalu seru. Kalo lo sedih, dia bisa mendadak mellow dan bilang, “eh sumpah, aku ngerti kok rasanya...” Yap, Furina versi ini tuh kayak gabungan diva, sahabat julid, dan konselor dadakan.`,
     };
 
     try {
       // Mengirim pesan ke API dan mendapatkan respons
+      await message.channel.sendTyping();
+
       const reply = await chatbotInteraction(
         userMessage,
         characterConfig,
         username
       );
-      message.channel.send(reply);
 
+      setTimeout(() => {
+        message.channel.send(reply);
+      }, 1000);
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
       message.reply(
