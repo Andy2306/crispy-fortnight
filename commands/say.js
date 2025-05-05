@@ -9,8 +9,7 @@ module.exports = {
         }
 
         const response = args.join(' ');
-        const username = message.author.username;
         message.delete(); // Menghapus pesan perintah
-        message.channel.send(`${username} berkata: ${response}`);
+        message.channel.send(response);
     }
 }
