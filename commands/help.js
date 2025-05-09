@@ -4,7 +4,7 @@ module.exports = {
     name: 'help',
     description: 'Menampilkan daftar perintah yang tersedia.',
     execute(message, args) {
-        const commands = message.client.commands.map(cmd => `**${cmd.name}**: ${cmd.description}`).join('\n');
+        const commands = message.client.commands.map(cmd => `**${cmd.name}**:\n ${cmd.description}`).join('\n');
         const embed = new EmbedBuilder()
             .setTitle('📖Daftar Perintah')
             .setDescription(commands || 'Tidak ada perintah yang tersedia.')
